@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WebTec UE04 - hopps01</title>
+    <style type="text/css"></style>
+    <script type="text/javascript">
+      (function() {
+
+        function TableGen(x){
+          this.table = document.createElement("table");
+          this.table.setAttribute("id","table");
+          this.table.setAttribute("style","border:1px solid black;");
+
+          for(var i=x; i>0;i--){
+            this.tr = document.createElement("tr");
+            this.tr.setAttribute("id","tr"+i)
+            this.tr.setAttribute("style", "border: 1px solid black; height:50px; width:150px;");
+
+            for(var b=x;b>0;b--){
+              this.td = document.createElement("td");
+              this.td.setAttribute("id","td"+i+"."+b);
+              this.td.setAttribute("style","border: 1px solid black; width:50px; height:50px;")
+              this.tr.appendChild(this.td);
+            }
+
+            this.table.appendChild(this.tr);
+            //console.log(table);
+          }
+          this.logTable       =     function(){
+                                      console.log(this.table);
+                                    }
+
+          this.addTable       =     function(){
+                                      //  console.log(this.table);
+                                      document.body.appendChild(this.table);
+                                    }
+
+          this.returnTable    =     function(){
+                                      //console.log(this.table);
+                                      return(this.table);
+                                    }
+
+        }
+
+        function StartButton(){
+          this.button=document.createElement("input");
+          this.button.setAttribute("id","start");
+          this.button.setAttribute("type","button");
+          this.button.setAttribute("value","Start");
+          this.addButtonToBody=function(){
+          document.body.appendChild(this.button);
+          }
+
+        }
+
+        function Counter(x){
+          this.inputElement = document.createElement("input");
+          this.inputElement.value=0;
+          document.body.appendChild(this.inputElement);
+          var variableValue=this.inputElement;
+
+          this.increment = function(){
+            console.log(variableValue);
+            variableValue.value=parseInt(variableValue.value)+1;
+          }
+          this.alertAndReset=function(){
+            alert("Sie haben "+variableValue.value+" mal getroffen!");
+            variableValue.value=0;
+          }
+        }
+
+        function setRandomX(){
+          this.xButton=document.createElement("input");
+          this.xButton.setAttribute("id","xbutton");
+          this.xButton.setAttribute("type","button");
+          this.xButton.setAttribute("value","X");
+          document.getElementById("td1.2").appendChild(this.xButton);
+          var xButtonStatic=this.xButton;
+
+          this.xJumps = function(){
+
+            var rand1 = parseInt((Math.random()*3)+1);
+            var rand2 = parseInt((Math.random()*3)+1);
+            document.getElementById("td"+rand1+"."+rand2).appendChild(xButtonStatic);
+          }
+
+        }
+
+
+        function start(){
+          var table = new TableGen(3);
+          table.addTable();
+          var button =new StartButton();
+          button.addButtonToBody();
+          var counter = new Counter(0);
+          var xButton = new setRandomX();
+          xButton.xJumps();
+          document.getElementById("xbutton").addEventListener("click",counter.increment);
+          document.getElementById("start").addEventListener("click", function(){gameDuration = setInterval(xButton.xJumps,500); setTimeout(function(){clearInterval(gameDuration); counter.alertAndReset(); }, 10000);});
+
+
+
+        }
+
+        window.addEventListener("load",start);
+
+      })();
+
+    </script>
+  </head>
+  <body></body>
+</html>
